@@ -48,20 +48,38 @@ To use Greminder, you need to provide your own Google Calendar API credentials. 
 
 ## How to Use
 
-Once the plugin is configured, you can create a reminder in any note by typing an annotation in the following format:
+Once the plugin is configured, you can create a reminder from any line in a note.
 
-`@ dd mm yy hh:mm Your reminder text`
+1.  Write your reminder text in the format `@ dd mm yy hh:mm Your reminder text`. Make sure your cursor is on that line.
+    
+    `@ 29 06 25 15:30 Team Meeting`
 
-For example:
+2.  Trigger the event creation using one of the following methods:
+    -   **Ribbon Icon**: Click the calendar icon in the far-left sidebar.
+    -   **Command Palette**: Press `Ctrl/Cmd + P`, type `Greminder`, and select "Create Google Calendar event from current line".
 
-`@ 29 06 25 15:30 Team Meeting`
+3.  Greminder will then:
+    -   Parse the date, time, and summary.
+    -   Create a new event in your primary Google Calendar.
+    -   Set a 10-minute reminder.
+    -   Replace the line with a formatted link to the newly created event.
 
-After you type this, Greminder will automatically:
+## Screenshots
 
-1.  Parse the date, time, and summary.
-2.  Create a new event in your primary Google Calendar.
-3.  Set a 10-minute reminder.
-4.  Replace the annotation with a link to the newly created event.
+1.  **Write your reminder in the correct format.**
+    ![Step 1](screenshots/basic1ststep.png)
+
+2.  **Use the command palette (`Ctrl/Cmd + P`) to trigger the event.**
+    ![Step 2](screenshots/ctrlp_screen.png)
+
+3.  **The text is replaced with a confirmation link.**
+    ![Step 3](screenshots/alertlinkbeforerender.png)
+
+4.  **The final rendered link in your note.**
+    ![Step 4](screenshots/googlealertlinkrenderd.png)
+
+5.  **The event appears in your Google Calendar.**
+    ![Step 5](screenshots/googlecalender_show.png)
 
 ## Contributing
 

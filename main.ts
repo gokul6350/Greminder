@@ -21,9 +21,17 @@ export default class GreminderPlugin extends Plugin {
 
     this.addSettingTab(new GreminderSettingTab(this.app, this));
 
-    this.registerEvent(
-      this.app.workspace.on('editor-change', this.onEditorChange.bind(this))
-    );
+    this.addRibbonIcon('calendar-plus', 'Create Greminder Event', () => {
+      this.createEventFromCurrentLine();
+    });
+
+    this.addCommand({
+      id: 'create-greminder-event',
+      name: 'Create Google Calendar event from current line',
+      editorCallback: (editor: Editor) => {
+        this.createEventFromCurrentLine(editor);
+      }
+    });
   }
 
   onunload() {}
@@ -36,16 +44,18 @@ export default class GreminderPlugin extends Plugin {
     await this.saveData(this.settings);
   }
 
-  private async onEditorChange(editor: Editor, view: MarkdownView) {
-    console.log("Greminder: onEditorChange triggered.");
-    const cursor = editor.getCursor();
-    const line = editor.getLine(cursor.line);
-    console.log("Greminder: Current line:", line);
+  private async createEventFromCurrentLine(editor?: Editor) {
+    const activeEditor = editor || this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
+    if (!activeEditor) {
+      new Notice('No active editor found.');
+      return;
+    }
 
+    const cursor = activeEditor.getCursor();
+    const line = activeEditor.getLine(cursor.line);
     const regex = /@\s?(\d{2}) (\d{2}) (\d{2}) (\d{2}):(\d{2}) (.*)/;
     const match = line.match(regex);
-    console.log("Greminder: Regex match result:", match);
-    console.log("Greminder: Settings loaded:", this.settings);
+
 
     if (match) {
       const [, day, month, year, hours, minutes, summary] = match;
@@ -69,8 +79,10 @@ export default class GreminderPlugin extends Plugin {
 
         if (eventLink) {
           if (match.index !== undefined) {
-            const eventMarkdownLink = `[Google Calendar Event](${eventLink})`;
-            editor.replaceRange(eventMarkdownLink, { line: cursor.line, ch: match.index }, { line: cursor.line, ch: match.index + match[0].length });
+            const timeFormatOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+            const formattedTime = date.toLocaleString('en-US', timeFormatOptions);
+            const eventMarkdownLink = `[Google Reminder ${formattedTime}](${eventLink})`;
+            activeEditor.replaceRange(eventMarkdownLink, { line: cursor.line, ch: match.index }, { line: cursor.line, ch: match.index + match[0].length });
             new Notice('Google Calendar event created successfully!');
           }
         } else {
