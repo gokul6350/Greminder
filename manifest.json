@@ -1,0 +1,11 @@
+{
+	"id": "greminder-plugin",
+	"name": "Greminder",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Create Google Calendar reminders from your notes.",
+	"author": "Gokulbarath",
+	"authorUrl": "https://gokulbarath.is-a.dev",
+	"fundingUrl": "https://gokulbarath.is-a.dev",
+	"isDesktopOnly": false
+}
