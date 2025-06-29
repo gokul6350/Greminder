@@ -79,6 +79,7 @@ Once the plugin is configured, you can create a reminder from any line in a note
     ![Step 4](screenshots/googlealertlinkrenderd.png)
 
 5.  **The event appears in your Google Calendar.**
+
     ![Step 5](screenshots/googlecalender_show.png)
 
 ## Contributing
